@@ -9,7 +9,7 @@ export const App = () => {
   };
   return (
     <div>
-      App content {count}
+      content {count}
       <button onClick={increment}>plus</button>
     </div>
   );

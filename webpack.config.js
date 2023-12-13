@@ -15,5 +15,17 @@ module.exports = (env) => {
         template: path.resolve(__dirname, "public", "index.html"),
       }),
     ],
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          use: "ts-loader",
+          exclude: /node_modules/,
+        },
+      ],
+    },
+    resolve: {
+      extensions: [".tsx", ".ts", ".js"],
+    },
   };
 };

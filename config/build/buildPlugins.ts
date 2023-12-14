@@ -1,11 +1,14 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { Configuration } from "webpack";
+import { BuildOptions } from "./types/types";
 
-function buildPlugins(): Configuration["plugins"] {
+function buildPlugins(options: BuildOptions): Configuration["plugins"] {
+  const isProd = options.mode === "production";
+
   return [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "public", "index.html"),
+      template: options.paths.html,
     }),
     isProd &&
       new MiniCssExtractPlugin({

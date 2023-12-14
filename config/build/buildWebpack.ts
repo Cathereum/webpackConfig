@@ -1,26 +1,28 @@
 import webpack from "webpack";
-import path from "path";
 import buildDevServer from "./buildDevServer";
 import buildLoaders from "./buildLoaders";
 import buildPlugins from "./buildPlugins";
 import buildResolvers from "./buildResolvers";
+import { BuildOptions } from "./types/types";
 
-function buildWebpack(option): webpack.Configuration {
+function buildWebpack(options: BuildOptions): webpack.Configuration {
+  const isDev = options.mode === "development";
+
   return {
-    mode: env.mode ?? "development",
-    entry: path.resolve(__dirname, "src", "index.tsx"),
+    mode: options.mode ?? "development",
+    entry: options.paths.entry,
     output: {
-      path: path.resolve(__dirname, "build"),
+      path: options.paths.output,
       filename: "[name].[contenthash:8].js",
       clean: true,
     },
-    plugins: buildPlugins(),
+    plugins: buildPlugins(options),
 
     module: {
-      rules: buildLoaders(),
+      rules: buildLoaders(options),
     },
-    resolve: buildResolvers(),
-    devServer: isDev ? buildDevServer() : undefined,
+    resolve: buildResolvers(options),
+    devServer: isDev ? buildDevServer(options) : undefined,
   };
 }
 
